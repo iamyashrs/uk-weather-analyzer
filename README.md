@@ -1,9 +1,11 @@
-gae-resume
+UK-Weather-Analyzer
 ========
 
 > **UK-Weather-Analyzer** is a web visualization website build on Google App Engine using Python, Django, AngularJS, Bootstrap, Chart.js and other technologies.
 
-`NOTE` Scraps data from public sector information licensed under the [http://www.nationalarchives.gov.uk/doc/open-government-licence/](Open Government Licence v1.0) [http://www.metoffice.gov.uk/climate/uk/datasets/#](view data source). 
+![UK-Weather-Analyzer](https://raw.githubusercontent.com/yashrajsingh/uk-weather-analyzer/master/uk_weather_analyzer/static/uk_weather_analyzer/images/logo.png)
+
+`NOTE` Scraps data from public sector information licensed under the [Open Government Licence v1.0](http://www.nationalarchives.gov.uk/doc/open-government-licence/) [view data source](http://www.metoffice.gov.uk/climate/uk/datasets/#). 
 
 Available online:
 [https://uk-weather-analyzer.appspot.com/](https://uk-weather-analyzer.appspot.com/)
