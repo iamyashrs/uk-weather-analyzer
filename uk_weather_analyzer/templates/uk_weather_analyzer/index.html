@@ -1,0 +1,202 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>UK Weather Analyzer | Animated Climate Visualizer</title>
+        <link href='{% static 'uk_weather_analyzer/images/favicon.png' %}' rel='icon' type='image/x-icon'/>
+
+        <meta content='Yash Raj Singh' name='author'/>
+        <meta content='UK Weather Analyzer | Animated Climate Visualizer' property='og:site_name'/>
+
+        <meta content='Copyright 2015-2016 by Yash Raj Singh. All Rights Reserved.' name='copyright'/>
+        <meta content='uk, weather, climate, history, data, visualize, animated, yash raj singh, kisanhub' name='keywords'/>
+        <meta content='A weather visualizer for UK by Yash Raj Singh' name='description'/>
+
+        <link rel="apple-touch-icon" sizes="57x57" href="{% static 'uk_weather_analyzer/images/favicon/apple-icon-57x57.png' %}">
+        <link rel="apple-touch-icon" sizes="60x60" href="{% static 'uk_weather_analyzer/images/favicon/apple-icon-60x60.png' %}">
+        <link rel="apple-touch-icon" sizes="72x72" href="{% static 'uk_weather_analyzer/images/favicon/apple-icon-72x72.png' %}">
+        <link rel="apple-touch-icon" sizes="76x76" href="{% static 'uk_weather_analyzer/images/favicon/apple-icon-76x76.png' %}">
+        <link rel="apple-touch-icon" sizes="114x114" href="{% static 'uk_weather_analyzer/images/favicon/apple-icon-114x114.png' %}">
+        <link rel="apple-touch-icon" sizes="120x120" href="{% static 'uk_weather_analyzer/images/favicon/apple-icon-120x120.png' %}">
+        <link rel="apple-touch-icon" sizes="144x144" href="{% static 'uk_weather_analyzer/images/favicon/apple-icon-144x144.png' %}">
+        <link rel="apple-touch-icon" sizes="152x152" href="{% static 'uk_weather_analyzer/images/favicon/apple-icon-152x152.png' %}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'uk_weather_analyzer/images/favicon/apple-icon-180x180.png' %}">
+        <link rel="icon" type="image/png" sizes="192x192"  href="{% static 'uk_weather_analyzer/images/favicon/android-icon-192x192.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'uk_weather_analyzer/images/favicon/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="96x96" href="{% static 'uk_weather_analyzer/images/favicon/favicon-96x96.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'uk_weather_analyzer/images/favicon/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'uk_weather_analyzer/images/favicon/manifest.json' %}">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="{% static 'uk_weather_analyzer/images/favicon/ms-icon-144x144.png' %}">
+        <meta name="theme-color" content="#ffffff">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+          <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <link rel="stylesheet" href="{% static 'uk_weather_analyzer/css/bootstrap.min.css' %}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Muli:400,300|Roboto+Mono">
+        <link rel="stylesheet" href="{% static 'uk_weather_analyzer/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'uk_weather_analyzer/css/style.css' %}">
+		<link rel="stylesheet" href="{% static 'uk_weather_analyzer/css/kudos.css' %}">
+		<link rel="stylesheet" href="{% static 'uk_weather_analyzer/css/angular-busy.min.css' %}">
+		<link rel="stylesheet" href="{% static 'uk_weather_analyzer/css/social-buttons.css' %}">
+    </head>
+    <body ng-app="app">
+        <div id="menu" class="text-center">
+            <a href="/"><img  class="img-responsive logo" src="{% static 'uk_weather_analyzer/images/logo_text.png' %}"/></a>
+        </div>
+
+        <div id="feedback" class="center-block text-center" style="top:0; left:0; margin: 20px; position: absolute;" ng-controller="MainCtrl">
+            <div og-kudos id="kudos"
+                    og-kudos-count="{{ count }}"
+                    og-kudos-done="addCount()">
+            </div>
+        </div>
+
+        <div class="container">
+            <div id="report" class="content" ng-controller="LineCtrl" cg-busy="myPromise">
+                {%verbatim%}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="options" ng-hide="show">
+                            <div class="btn-group" id="btn-right">
+                                <button type="button" class="btn btn-default" ng-class="{active : activeMenu === mode}"
+                                        ng-repeat="mode in modes" ng-click="mode_change(mode)">
+                                    {{ mode }}</button>
+                            </div>
+                            <div class="btn-group-now" uib-dropdown is-open="status.isopen" style="width: 100px;">
+                                <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                                    {{button}}
+                                <span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="single-button">
+                                        <li role="menuitem" ng-repeat="region in regions" ng-click="region_change(region)">
+                                            <a href="#">{{region}}</a>
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div style="width:100%;">
+                            <canvas id="line" class="chart chart-line" chart-data="data"
+                                chart-labels="labels" chart-series="series" chart-options="options"
+                                chart-click="onClick">
+                            </canvas>
+                        </div>
+
+                        <div class="row" style="margin-top: 75px;">
+                            <div class="col-md-12">
+                                <div class="year_chart center-block text-center">
+                                    <canvas id="base" class="chart-bar" chart-options="bar_options"
+                                      chart-data="bar_data" chart-labels="bar_labels" chart-colors="bar_colors"
+                                      chart-dataset-override="bar_datasetOverride" >
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 75px; margin-bottom:75px;" ng-hide="show">
+                            <div class="col-md-6 text-center">
+                                <h1 class="page_heading">{{ new_prev_year_diff }}<span> {{ value_type }}</span></h1>
+                                <p>Mean difference between {{ newest_year }} and {{ newest_year-1 }}(yet).</p>
+                                <br/>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <br/>
+                                <table class='table table-borderless'>
+                                    <thead>
+                                      <tr>
+                                        <th></th>
+                                        <th style="text-align: center;">{{ newest_year }}</th>
+                                        <th style="text-align: center;">{{ newest_year-1 }}</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">Max</th>
+                                        <td style="color:#45b7cd; font-weight: bold;">{{ newest_year_max_value }}</td>
+                                        <td style="color:#ff6384; font-weight: bold;">{{ newest_years_previous_year_max_value }}</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">Min</th>
+                                        <td style="color:#45b7cd; font-weight: bold;">{{ newest_year_min_value }}</td>
+                                        <td style="color:#ff6384; font-weight: bold;">{{ newest_years_previous_year_min_value }}</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 10px;" ng-hide="show">
+                            <div class="col-md-12 text-center">
+                                <p><a ng-click="update_data()" href="#" style="color: black;">
+                                    <i class="fa fa-refresh fa-2x"></i></a></p>
+                                <p>This data was last updated at {{ updated_at | date:'dd/MM/yyyy HH:mm' }}.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endverbatim %}
+                </div>
+            </div>
+
+            <div id="this" class="content">
+                <div class="social-sharing center-block text-center" data-permalink="https://uk-weather-analyzer.appspot.com/">
+                    <!-- https://developers.facebook.com/docs/plugins/share-button/ -->
+                    <a target="_blank" href="http://www.facebook.com/sharer.php?u=https://uk-weather-analyzer.appspot.com/" class="share-facebook">
+                      <span class="icon icon-facebook" aria-hidden="true"></span>
+                      <span class="share-title">Share</span>
+                    </a>
+
+                    <!-- https://dev.twitter.com/docs/intents -->
+                    <a target="_blank" href="http://twitter.com/share?url=https://uk-weather-analyzer.appspot.com/&amp;text=jQuery%20social%20media%20buttons%20on%20GitHub&amp;" class="share-twitter">
+                      <span class="icon icon-twitter" aria-hidden="true"></span>
+                      <span class="share-title">Tweet</span>
+                    </a>
+
+                    <!-- https://developers.google.com/+/web/share/ -->
+                    <a target="_blank" href="http://plus.google.com/share?url=https://uk-weather-analyzer.appspot.com/" class="share-google">
+                      <span class="icon icon-google" aria-hidden="true"></span>
+                      <span class="share-title">+1</span>
+                    </a>
+                </div>
+
+                <ul class="list-group center-block text-center" style="max-width: 800px; margin-bottom: 0;">
+                    <li class="list-group-item"><img class="img-responsive" src="{% static 'uk_weather_analyzer/images/python.png' %}"/></li>
+                    <li class="list-group-item"><img class="img-responsive" src="{% static 'uk_weather_analyzer/images/app_engine.png' %}"/></li>
+                    <li class="list-group-item"><img class="img-responsive" src="{% static 'uk_weather_analyzer/images/django.png' %}"/></li>
+                    <li class="list-group-item"><img class="img-responsive" src="{% static 'uk_weather_analyzer/images/angular.png' %}"/></li>
+                    <li class="list-group-item"><img class="img-responsive" src="{% static 'uk_weather_analyzer/images/html.png' %}"/></li>
+                    <li class="list-group-item"><img class="img-responsive" src="{% static 'uk_weather_analyzer/images/chartjs-logo.svg' %}"/></li>
+                </ul>
+                <p class="subtext center-block text-center" style="max-width: 600px; margin-bottom: 25px; color:white; clear: both; display: block;">
+                  This website was build with following technologies and contains data from public sector information licensed under the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/">Open Government Licence v1.0</a> (<a href="http://www.metoffice.gov.uk/climate/uk/datasets/#">view data source</a>).
+                    <br/>
+                    Project build by <a href="http://yashrajsingh.net/" target="_blank">Yash Raj Singh</a> 2016.
+                    <a href="#">
+                        <img style="margin: 0 auto; margin-top: 10px; text-align: center;"
+                             class="img-responsive" src="{% static 'uk_weather_analyzer/images/fork-me-on-github.png' %}"/>
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <script src="{% static 'uk_weather_analyzer/js/jquery-2.1.4.min.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/angular.min.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/angular-kudos.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/ngStorage.min.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/Chart.min.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/angular-chart.min.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/ui-bootstrap-2.0.1.min.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/angular-animate.min.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/angular-busy.min.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/app.js' %}"></script>
+        <script src="{% static 'uk_weather_analyzer/js/social-buttons.js' %}"></script>
+    </body>
+</html>

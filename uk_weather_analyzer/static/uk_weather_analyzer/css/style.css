@@ -1,0 +1,201 @@
+/* Global Styles */
+html {
+    background-image:url(/static/uk_weather_analyzer/images/uk.png);
+    background-color: #FFF;
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+
+body {
+    color: #000;
+    background-color: transparent;
+}
+
+a {
+    color: #aacbfd;
+}
+
+a:hover, a:focus {
+    color: #FFF;
+    text-decoration: underline;
+}
+
+ /*Custom Styles*/
+
+.link {
+    width: auto;
+    padding-bottom: 3px;
+    border-bottom: 2px solid #fff;
+}
+
+.subtext {
+    color: #848484;
+}
+
+.content {
+    margin: 20px 50px 50px 50px;
+    font-family: 'Muli',sans-serif;
+}
+
+#report {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 4px;
+    padding: 10px 10px 10px;
+}
+
+.dp {
+    width: 512px;
+    height: auto;
+}
+
+.page_heading {
+    position: relative;
+    color: red;
+    font-size: 4.1875vw;
+    line-height: 1.0909090909em;
+    text-transform: uppercase;
+    font-family: 'brandon-grotesque',sans-serif;
+    filter: blur(0px);
+    -webkit-filter: blur(0px);
+    -webkit-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+    clear:both;
+}
+
+.page_heading span, .table_value {
+    text-transform: none;
+    color: red;
+    font-size: 1.2vw;
+    line-height: 1.0909090909em;
+    transition: all .25s ease-out;
+    font-family: 'brandon-grotesque',sans-serif;
+}
+
+.navbar-right {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.question {
+    position: relative;
+    text-transform: uppercase;
+    color: #000;
+    letter-spacing: .1em;
+    display: table;
+    margin-top: 50px;
+}
+
+.title {
+    position: relative;
+    top: 35%;
+    margin-left: 15px;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    font-family: 'brandon-grotesque',sans-serif;
+    font-weight: 600;
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    -webkit-transition: opacity .25s ease-out,-webkit-filter .25s;
+    transition: opacity .25s ease-out,-webkit-filter .25s;
+    z-index: 1;
+}
+
+.list-group li {
+    list-style: none;
+}
+
+.list-group-item {
+    display:inline-block;
+    margin: 0 10px;
+    background-color: transparent;
+    border: none;
+}
+
+.list-group-item img {
+    height: auto;
+    width: 48px;
+}
+
+canvas{
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.btn {
+    border-radius: 2px;
+}
+
+#btn-right {
+    float: right;
+    margin-bottom: 20px;
+}
+
+.options {
+    padding-left: 50px;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}
+
+.logo {
+    height: 100px;
+    width: auto;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.table-borderless tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
+    border: none;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: rgb(1, 33, 105);;
+    border-color: rgb(1, 27, 87);;
+}
+
+.year_chart {
+     width: 75%;
+}
+
+.rotate{
+      -webkit-animation: spin 2s infinite linear;
+      -moz-animation: spin 2s infinite linear;
+      -o-animation: spin 2s infinite linear;
+      animation: spin 2s infinite linear;
+}
+
+.social-sharing {
+    font-family: 'Muli',sans-serif!important;
+}
+
+#feedback {
+    opacity: 0.3;
+}
+
+#feedback:hover {
+    opacity: 1;
+}
+
+
+/* Mobile Styles */
+
+@media screen and (max-width: 480px) {
+    .page_heading {
+        font-size:10vw
+    }
+}
+
+/* Tablet Styles */
+
+@media screen and (max-width: 768px) {
+    .content {
+        margin: 0px 0px 0px 0px;
+    }
+    figure.kudo, #btn-right, .navbar-right{
+        display: none;
+    }
+    .year_chart {
+         width: 100%;
+    }
+}

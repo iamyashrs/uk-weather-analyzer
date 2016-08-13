@@ -1,0 +1,58 @@
+application: uk-weather-analyzer
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+
+- url: /_ah/(mapreduce|queue|warmup|start|stop).*
+  script: uk_weather_analyzer.wsgi.application
+  login: admin
+  secure: always
+
+- url: /_ah/internalupload.*
+  script: uk_weather_analyzer.wsgi.application
+  secure: always
+
+- url: /static/admin/
+  static_dir: sitepackages/django/contrib/admin/static/admin/
+  secure: always
+
+- url: /static/uk_weather_analyzer/
+  static_dir: uk_weather_analyzer/static/uk_weather_analyzer/
+  secure: always
+
+# Set Django admin to be login:admin as well as Django's is_staff restriction
+- url: /admin.*
+  script: uk_weather_analyzer.wsgi.application
+  secure: always
+  login: admin
+
+# Set Django admin to be login:admin as well as Django's is_staff restriction
+- url: /update_all.*
+  script: uk_weather_analyzer.wsgi.application
+  secure: always
+  login: admin
+
+- url: /.*
+  script: uk_weather_analyzer.wsgi.application
+  secure: always
+
+libraries:
+- name: lxml
+  version: "2.3.5"
+
+builtins:
+- remote_api: on
+
+skip_files:
+    - manage.py
+    - README.md
+    - install_deps
+    - requirements.txt
+    - sitepackages/google_appengine*
+    - \.storage.*
+    - \.git
+    - (.*)\.pyc
+    - \.idea
