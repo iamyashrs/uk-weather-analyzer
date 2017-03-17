@@ -5,7 +5,7 @@ UK-Weather-Analyzer
 
 ![UK-Weather-Analyzer](https://raw.githubusercontent.com/yashrajsingh/uk-weather-analyzer/master/uk_weather_analyzer/static/uk_weather_analyzer/images/logo.png)
 
-`NOTE` Scraps data from public sector information licensed under the [Open Government Licence v1.0](http://www.nationalarchives.gov.uk/doc/open-government-licence/) [view data source](http://www.metoffice.gov.uk/climate/uk/datasets/#). 
+`NOTE` Scraps data from public sector information licensed under the [Open Government Licence v1.0](http://www.nationalarchives.gov.uk/doc/open-government-licence/) [view data source](http://www.metoffice.gov.uk/climate/uk/datasets/#).
 
 Available online:
 [https://uk-weather-analyzer.appspot.com/](https://uk-weather-analyzer.appspot.com/)
@@ -39,10 +39,14 @@ To scrap and store live data for the first time, navigate to `http://localhost:8
 Deploying on Google App Engine
 ------------------------------
 
-Create a Google App Engine project. Edit `app.yaml` and change `application: uk-weather-analyzer` to `application: your-app-id`. 
+Create a Google App Engine project. Edit `app.yaml` and change `application: uk-weather-analyzer` to `application: your-app-id`.
 Then, if you're in the `uk-weather-analyzer` directory, run:
 
     $ appcfg.py update ./
+
+    OR
+
+    $ gcloud app deploy --project uk-weather-analyzer -v 1
 
 If you have two-factor authentication enabled in your Google account, run:
 
@@ -54,11 +58,11 @@ Tech Stack & Credits
 
   - [Google App Engine][], [NDB][]
   - [Django][], [AngularJS][],
-  - [Bootstrap][], [jQuery][], 
-  - [angular-kudos][], [ngStorage][], 
-  - [angular-chart][], [Chart.js][], 
-  - [angular-busy][], [angular-animate][], 
-  - [social-buttons][], [ui-bootstrap][], 
+  - [Bootstrap][], [jQuery][],
+  - [angular-kudos][], [ngStorage][],
+  - [angular-chart][], [Chart.js][],
+  - [angular-busy][], [angular-animate][],
+  - [social-buttons][], [ui-bootstrap][],
   - [Python 2.7][], [pip][], [virtualenv][]
 
 Help & Support
