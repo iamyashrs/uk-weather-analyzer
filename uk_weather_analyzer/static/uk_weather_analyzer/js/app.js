@@ -2,7 +2,6 @@
     'use strict';
 
     var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    var YEARS = [1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2003, 2010, 2014, 2016];
     Chart.defaults.global.defaultFontColor = '#000';
 
     var app = angular.module('app', ['ngAnimate','angular-kudos','chart.js','ui.bootstrap','cgBusy']);
@@ -246,14 +245,6 @@
                        $scope.show = false;
                     });
         }
-
-        $scope.update_data = function update_data(){
-            $scope.myPromise = $http.get('/update?region=' + $scope.region + '&mode=' + $scope.mode )
-                   .then(function(res){
-                       $scope.updated = res.data.updated;
-                       update_table();
-                   });
-        };
 
         $http.get('/api/modes')
                .then(function(res){

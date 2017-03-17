@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from google.appengine.api import urlfetch
 from google.appengine.api import urlfetch_errors
 from bs4 import BeautifulSoup
@@ -107,34 +108,36 @@ def get_updates():
 
         # Parsing types of Modes of data
         mode_dict = {}
-        th = table[1].find('tr', class_='classicodd')
-        for index, td in enumerate(th.findAll('th', class_='classictopcenter')[:-1]):
-            mode_dict[index] = td.get_text().strip()
+        th = table[1].find('tr')
+        for index, td in enumerate(th.findAll('th')[1:]):
+            m = td.get_text().strip()
+            # fix for 'Raindays' coulum
+            if u'≥' in m:
+                m = m.rsplit(' ', 1)[0].strip()
+            mode_dict[index] = m
 
         # Parsing and saving table data
-        tr_all = table[1].findAll('tr', class_='classiceven')
+        tr_all = table[1].findAll('tr')[1:]
         if tr_all:
-            for tr in tr_all[:4]:
-                td_name = tr.find('td', class_='classicmiddleleft').get_text()
-                if td_name in ('UK', 'England', 'Wales', 'Scotland'):
-                    # print td_name
-                    region, created = models.Region.objects.get_or_create(Name=td_name)
+            for tr in tr_all:
+                td_name = tr.find('td').get_text()
 
-                    for index, td in enumerate(tr.findAll('td', class_='classicmiddlecenter')[:-1]):
-                        link = td.find('a').get('href')
+                # print td_name
+                region, created = models.Region.objects.get_or_create(Name=td_name)
 
-                        # Saving Modes and links into database tables
-                        mode, created = models.Mode.objects.get_or_create(Name=mode_dict[index])
-                        link_obj, link_created = models.Link.objects.update_or_create(Link=link, Region=region,
-                                                                                      Mode=mode)
+                for index, td in enumerate(tr.findAll('td')[1:]):
+                    link = td.find('a').get('href')
 
-                        try:
-                            get_and_save_readings(link, region, mode)
-                        except urlfetch_errors.DeadlineExceededError:
-                            pass
-                            # print link
-                else:
-                    pass
+                    # Saving Modes and links into database tables
+                    mode, created = models.Mode.objects.get_or_create(Name=mode_dict[index])
+                    link_obj, link_created = models.Link.objects.update_or_create(Link=link, Region=region,
+                                                                                  Mode=mode)
+
+                    try:
+                        get_and_save_readings(link, region, mode)
+                    except urlfetch_errors.DeadlineExceededError:
+                        # print link
+                        pass
 
             # print tr_all
             return True

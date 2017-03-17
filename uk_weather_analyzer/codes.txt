@@ -1,0 +1,19 @@
+This file includes the code, which are not part of the real application but can be added as per the needs.
+
+1. Update All Button
+
+> html
+
+    <p><a ng-click="update_data()" href="#" style="color: black;">
+        <i class="fa fa-refresh fa-2x"></i></a></p>
+
+> JS
+Inside App.js
+
+        $scope.update_data = function update_data(){
+            $scope.myPromise = $http.get('/update?region=' + $scope.region + '&mode=' + $scope.mode )
+                   .then(function(res){
+                       $scope.updated = res.data.updated;
+                       update_table();
+                   });
+        };

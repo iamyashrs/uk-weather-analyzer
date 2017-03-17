@@ -2,11 +2,21 @@ from django.http import HttpResponse
 from django.template import loader
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import urllib
 
 import models
 import functions
 import json
+import datetime
 
+# Returns years
+def getYears():
+    years = [1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, 2010]
+    now = datetime.datetime.now()
+    current_year = now.year
+    last_year = current_year - 1
+    years.extend([last_year, current_year])
+    return years
 
 @csrf_exempt
 def home(request):
@@ -28,7 +38,7 @@ def kudos(request):
     return JsonResponse({'count': models.get_kudos()})
 
 
-@csrf_exempt
+# @csrf_exempt
 def api_readings(request):
     # print data
     region = request.GET['region']
@@ -37,7 +47,7 @@ def api_readings(request):
     if models.Region.objects.filter(Name=region).exists() and models.Mode.objects.filter(Name=mode).exists() :
         region_obj = models.Region.objects.filter(Name=region)
         mode_obj = models.Mode.objects.filter(Name=mode)
-        data = models.Readings.objects.filter(Mode=mode_obj[0], Region=region_obj[0]).order_by('Year')
+        data = models.Readings.objects.filter(Mode=mode_obj[0], Region=region_obj[0], Year__in=getYears()).order_by('Year')
         results = [ob.to_dict() for ob in data]
         return JsonResponse(dict(results=results))
     else:
@@ -75,9 +85,3 @@ def update(request):
 def update_all(request):
     done = functions.get_updates()
     return JsonResponse({'updated': done})
-
-
-@csrf_exempt
-def delete(request):
-    done = models.delete_everything_from_readings()
-    return JsonResponse({'deleted_all': done})

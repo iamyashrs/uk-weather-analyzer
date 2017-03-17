@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djangae.contrib.gauth.datastore',
+    'djangae.contrib.gauth_datastore',
     'djangae.contrib.security',
     'uk_weather_analyzer',
     # 'djangae.contrib.uniquetool',

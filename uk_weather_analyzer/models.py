@@ -26,7 +26,7 @@ class Region(models.Model):
 class Link(models.Model):
     Mode = models.ForeignKey(Mode, on_delete=models.CASCADE)
     Region = models.ForeignKey(Region, on_delete=models.CASCADE)
-    Link = models.URLField(unique=True)
+    Link = models.URLField()
     updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
@@ -86,7 +86,3 @@ def add_kudos():
 
 def get_kudos():
     return Kudos.objects.all().count()
-
-
-def delete_everything_from_readings():
-    return Readings.objects.all().delete()
